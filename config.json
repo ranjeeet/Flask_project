@@ -1,0 +1,27 @@
+{
+  "params":
+  {
+    "local_server":"True",
+    "local_uri":"mysql://root:@localhost/rsvp",
+
+    "prod_uri":"mysql://root:@localhost/rsvp",
+    "fb_url":"https://facebook.com/myblog",
+    "tw_url":"https://twitter.com/myblog",
+    "gh_url":"https://github.com/myblog",
+    "blog_name":"My Blog",
+    "sub_hd":"This is my blog",
+    "gmail-user": "ranjeet16csu288@ncuindia.edu",
+    "gmail-password":"ranjeet@1"
+
+
+
+
+
+
+  }
+
+
+
+
+
+}

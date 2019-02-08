@@ -3,13 +3,33 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from flask import request
 import pymysql
+import json
+from flask_mail import Mail
+
 
 pymysql.install_as_MySQLdb()
 
+with open('config.json', 'r') as c:
+    params = json.load(c)['params']
 
+local_server = "True"
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:@localhost/rsvp'
+app.config.update(
+    MAIL_SERVER='smtp.gmail.com',
+    MAIL_PORT='456',
+    MAIL_USE_SSL='True',
+    MAIL_USERNAME=params['gmail-user'],
+    MAIL_PASSWORD=params['gmail-password']
+
+)
+mail = Mail(app)
+
+if local_server:
+    app.config['SQLALCHEMY_DATABASE_URI'] = params['local_uri']
+else:
+    app.config['SQLALCHEMY_DATABASE_URI'] = params['prod_uri']
+
 db = SQLAlchemy(app)
 
 
@@ -24,17 +44,17 @@ class Contacts(db.Model):
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template('index.html', params=params)
 
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
+    return render_template('about.html', params=params)
 
 
 @app.route("/post")
 def post():
-    return render_template('post.html')
+    return render_template('post.html', params=params)
 
 
 @app.route("/con", methods=['GET', 'POST'])
@@ -48,8 +68,13 @@ def con():
         entry = Contacts(name=name, phone_num=phone, msg=message, email=email, date=datetime.now())
         db.session.add(entry)
         db.session.commit()
+        mail.send_message('New message from blog' + name, sender='email',
+                          recipients=[params['gmail-user']],
+                          body=message + "\n" + phone)
 
-    return render_template('con.html')
+
+
+    return render_template('con.html', params=params)
 
 
 app.run(debug=True)
