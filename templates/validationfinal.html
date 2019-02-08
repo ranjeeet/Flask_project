@@ -1,0 +1,65 @@
+<html>
+<head>
+<link href="{{ url_for('static', filename='validationfinal.css' ) }}" type="text/css" rel="stylesheet">
+
+</head>
+<body  oncontextmenu="return false" onkeydown="javascript:Disable_Control_C()">
+<div>
+<table cellspacing="10" cellpadding="10">
+<form name="myForm"  onsubmit="return validate()" action="#">
+<tr>
+<td>Name</td>
+<td><input class="a" type="text" name="fname" onkeypress="return isNumberKey(event)" placeholder="Enter Your Name"></td>
+</tr>
+<tr>
+<td>E-Mail</td>
+<td><input class="a" type="email" style="height:30px";  name="email" placeholder="Enter E-mail"></td>
+</tr>
+<tr>
+<td>Confirm E-mail</td>
+<td><input  class="a" type="email" style="height:30px";   name="rmail" placeholder="Confirm E-mail"></td>
+</tr>
+<tr>
+<td>Password</td>
+<td><input class="a" type="password" style="height:30px"; name="pass" placeholder="Enter Password"> </td>
+</tr>
+<tr>
+<td>Confirm Password</td>
+<td><input class="a" type="password" style="height:30px";  name="cpass" placeholder="Confirm Password"></td>
+</tr>
+<tr>
+<td>Zip Code</td>
+<td><input class="a" type="number" style="height:30px"; name="zip" placeholder="Enter Zipcode"></td>
+</tr>
+
+<tr>
+<td>Mobile No.</td>
+<td><input class="a" type="text" style="height:30px"; name="mobile"; maxlength="10"; placeholder="Enter Mobile Number"></td>
+</tr>
+<tr>
+<td>City
+<select style="margin-left:112%;margin-top:-25px; height:30px; font-size:20px; border-radius:5px;" name="Country" >
+  <option value="-1">Select..</option>
+  <option value="">Delhi</option>
+  <option value="1">Gurgaon</option>
+  <option value="2">Banglore</option>
+<option value="3">Kolkata</option>
+</select></td>
+
+
+</tr>
+<tr>
+
+<td ><input class="b" type="submit" value="Submit" style="margin-left: 70% ;height:40px;width:70px;border-radius:5px;font-size:17px;"</td>
+<td ><input class="b" type="button" value="Reset" style="margin-right:50px;height:40px;width:70px;border-radius:5px;font-size:17px;"</td>
+</tr>
+<tr>
+
+
+</tr>
+</form>
+</table>
+</div>
+<script src="{{ url_for('static', filename='new.js')}}"></script>
+</body>
+</html>
