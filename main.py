@@ -42,6 +42,15 @@ class Contacts(db.Model):
     email = db.Column(db.String(20), nullable=False)
 
 
+class Posts(db.Model):
+    sno = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(80), unique=False, nullable=False)
+    slug = db.Column(db.String(120), nullable=False)
+    content = db.Column(db.String(120),  nullable=False)
+    date = db.Column(db.String(12))
+    img_file = db.Column(db.String(120), nullable=False)
+
+
 @app.route("/")
 def home():
     return render_template('index.html', params=params)
@@ -52,9 +61,11 @@ def about():
     return render_template('about.html', params=params)
 
 
-@app.route("/post")
-def post():
-    return render_template('post.html', params=params)
+@app.route("/post/<string:post_slug>", methods=['GET'])
+def post_route(post_slug):
+    post = Posts.query.filter_by(slug=post_slug).first()
+
+    return render_template('post.html', params=params, post=post)
 
 
 @app.route("/con", methods=['GET', 'POST'])
