@@ -15,7 +15,8 @@
     "no_of_posts":5,
     "login_image":"login.svg",
     "admin_user":"ranjeet",
-    "admin_password":"hello"
+    "admin_password":"hello",
+    "upload_location":"/home/ranjeet/PycharmProjects/Flask_1/static/"
 
 
 

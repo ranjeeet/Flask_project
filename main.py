@@ -1,10 +1,13 @@
 from flask import Flask, render_template, session, redirect
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
+from werkzeug.utils import secure_filename
 from flask import request
 import pymysql
 import json
 from flask_mail import Mail
+
+import os
 
 
 pymysql.install_as_MySQLdb()
@@ -16,6 +19,7 @@ local_server = "True"
 
 app = Flask(__name__)
 app.secret_key = 'super-secret-key'
+app.config['UPLOAD_FOLDER'] = params['upload_location']
 app.config.update(
     MAIL_SERVER='smtp.gmail.com',
     MAIL_PORT='465',
@@ -119,6 +123,29 @@ def edit(sno):
                 return redirect('/edit/' + sno)
         post = Posts.query.filter_by(sno=sno).first()
         return render_template('edit.html', params=params, post=post)
+
+
+@app.route("/uploader", methods=['GET', 'POST'])
+def uploader():
+    if request.method == 'POST':
+        if 'user' in session and session['user'] == params['admin_user']:
+            f = request.files['file1']
+            f.save(os.path.join(app.config['UPLOAD_FOLDER'], secure_filename(f.filename)))
+            return "Uploaded Successfully"
+
+@app.route("/logout")
+def logout():
+    session.pop('user')
+    return redirect('/dashboard')
+
+
+@app.route("/delete/<string:sno>", methods=['GET', 'POST'])
+def delete(sno):
+    if 'user' in session and session['user'] == params['admin_user']:
+        post = Posts.query.filter_by(sno=sno).first()
+        db.session.delete(post)
+        db.session.commit()
+    return redirect('/dashboard')
 
 
 @app.route("/con", methods=['GET', 'POST'])

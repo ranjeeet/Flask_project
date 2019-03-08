@@ -1,5 +1,4 @@
 #!/home/ranjeet/PycharmProjects/Flask_1/venv/bin/python
-
 # -*- coding: utf-8 -*-
 import re
 import sys
